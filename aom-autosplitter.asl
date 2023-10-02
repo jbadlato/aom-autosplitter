@@ -3,8 +3,10 @@ state("AoMX", "EE")
 {
     // todo: mission number?
     float missionTimer: 0x00352038, 0x0; // in seconds
+    // todo: this still doesn't work for The Lost Relic, maybe more
     int hasControlOverUnits: 0x00831BD8, 0x1D0; // 1 when you get control of your units after the cutscene
     // todo: victory
+    int victory: 0x00860A18, 0x10, 0x134, 0x430; // goes from 0->1 when "You are Victorious!" is displayed
     int menu: 0x00234380, 0x0; // 0 when in menus
 }
 
@@ -16,17 +18,15 @@ init
 
 start
 {
-    // todo: make sure starts after cut scene
-    if (settings["Individual Level"]) {
-        if (
-            current.menu != 0
-            && old.hasControlOverUnits != 1
-            && current.hasControlOverUnits == 1
-        ) {
-            vars.actualIGT = 0;
-            vars.cutSceneOffset = current.missionTimer;
-            return true;
-        }
+    // TODO: Does not work for The Lost Relic
+    if (
+        current.menu != 0
+        && old.hasControlOverUnits != 1
+        && current.hasControlOverUnits == 1
+    ) {
+        vars.actualIGT = 0;
+        vars.cutSceneOffset = current.missionTimer;
+        return true;
     }
 }
 
@@ -34,8 +34,9 @@ startup
 {
     // todo: each campaign?
     // todo: fps?
-    settings.Add("Individual Level");
-    settings.SetToolTip("Individual Level", "Check this box for IL runs - it will reset the timer without having to go back to the menu");
+    // todo: IL vs full campaign
+    // settings.Add("Individual Level");
+    // settings.SetToolTip("Individual Level", "Check this box for IL runs - it will reset the timer without having to go back to the menu");
 
     //Asks the user to set their timer to game time on livesplit, which is needed for verification
     if (timer.CurrentTimingMethod == TimingMethod.RealTime) // Inspired by the Modern warfare 3 Autosplitter
@@ -55,11 +56,14 @@ startup
 
 split
 {
-    // if (settings["Individual Level"]) {
-    //     if (current.victory == 1 && old.victory == 0) {
-    //         return true;
-    //     }
-    // }
+    // TODO: Only works for The Lost Relic ?
+    if (
+        current.victory == 1
+        && old.victory == 0
+    ) {
+        return true;
+    }
+    
 }
 
 reset
@@ -68,8 +72,5 @@ reset
 
 gameTime
 {
-    if (settings["Individual Level"]) {
-        vars.actualIGT = current.missionTimer - vars.cutSceneOffset;
-        return TimeSpan.FromSeconds(vars.actualIGT);
-    }
+    return TimeSpan.FromSeconds(current.missionTimer - vars.cutSceneOffset);
 }
