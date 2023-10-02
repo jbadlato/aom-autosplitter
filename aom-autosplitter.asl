@@ -1,12 +1,12 @@
 // todo: aot & vanilla
 state("AoMX", "EE")
 {
-    // todo: mission number
+    // todo: mission number?
     float missionTimer: 0x00352038, 0x0;
-    // int hasControlOverUnits: 0x00274DD4, 0x0; // = 1 when in game and not a cut scene
     int hasControlOverUnits: 0x00831BD8, 0x1D0;
     // todo: victory
     // int menu: 0x0013EC3C, 0x64; // = 46 when in fall of the trident campaign level select
+    int menu: 0x00234380, 0x0; // 0 when in menus
 }
 
 init
@@ -18,14 +18,16 @@ init
 start
 {
     // todo: make sure starts after cut scene
-    if (
-        settings["Individual Level"]
-        && vars.actualIGT == -1
-        && current.hasControlOverUnits == 1
-    ) {
-        vars.actualIGT = 0;
-        vars.cutSceneOffset = current.missionTimer;
-        return true;
+    if (settings["Individual Level"]) {
+        if (
+            current.menu != 0
+            && old.hasControlOverUnits != 1
+            && current.hasControlOverUnits == 1
+        ) {
+            vars.actualIGT = 0;
+            vars.cutSceneOffset = current.missionTimer;
+            return true;
+        }
     }
 }
 
@@ -63,19 +65,20 @@ split
 
 reset
 {
-    if (settings["Individual Level"]) {
-        if (
-                current.hasControlOverUnits != 1
-            ) {
-                vars.actualIGT = -1;
-                vars.cutSceneOffset = -1; 
-                return true;
-        } else { 
-            return false;
-        }
-    } else {
-        return false; // TODO
-    }
+    // if (settings["Individual Level"]) {
+    //     if (
+    //             current.hasControlOverUnits != 1
+    //             && old.hasControlOverUnits == 1
+    //         ) {
+    //             vars.actualIGT = -1;
+    //             vars.cutSceneOffset = -1; 
+    //             return true;
+    //     } else { 
+    //         return false;
+    //     }
+    // } else {
+    //     return false; // TODO
+    // }
 }
 
 gameTime
