@@ -2,10 +2,9 @@
 state("AoMX", "EE")
 {
     // todo: mission number?
-    float missionTimer: 0x00352038, 0x0;
-    int hasControlOverUnits: 0x00831BD8, 0x1D0;
+    float missionTimer: 0x00352038, 0x0; // in seconds
+    int hasControlOverUnits: 0x00831BD8, 0x1D0; // 1 when you get control of your units after the cutscene
     // todo: victory
-    // int menu: 0x0013EC3C, 0x64; // = 46 when in fall of the trident campaign level select
     int menu: 0x00234380, 0x0; // 0 when in menus
 }
 
@@ -65,20 +64,6 @@ split
 
 reset
 {
-    // if (settings["Individual Level"]) {
-    //     if (
-    //             current.hasControlOverUnits != 1
-    //             && old.hasControlOverUnits == 1
-    //         ) {
-    //             vars.actualIGT = -1;
-    //             vars.cutSceneOffset = -1; 
-    //             return true;
-    //     } else { 
-    //         return false;
-    //     }
-    // } else {
-    //     return false; // TODO
-    // }
 }
 
 gameTime
