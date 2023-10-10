@@ -6,7 +6,10 @@ state("AoMX", "EE")
     // todo: this still doesn't work for The Lost Relic, maybe more
     int hasControlOverUnits: 0x00831BD8, 0x1D0; // 1 when you get control of your units after the cutscene
     // todo: victory
-    int victory: 0x00860A18, 0x10, 0x134, 0x430; // goes from 0->1 when "You are Victorious!" is displayed
+    // int victory: 0x00860A18, 0x10, 0x134, 0x430; // goes from 0->1 when "You are Victorious!" is displayed
+    // int victory: 0x005A0A30, 0xB28, 0x78, 0x38, 0x0, 0x0, 0x90, 0x2B4; // goes from 1->0 when "You are Victorious!" is displayed
+    // int victory: 0x002C9F08, 0xF0, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
+    int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
     int menu: 0x00234380, 0x0; // 0 when in menus
 }
 
@@ -58,8 +61,8 @@ split
 {
     // TODO: Only works for The Lost Relic ?
     if (
-        current.victory == 1
-        && old.victory == 0
+        current.victory == 0
+        && old.victory == 1
     ) {
         return true;
     }
