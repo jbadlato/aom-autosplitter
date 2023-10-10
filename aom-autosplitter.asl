@@ -1,30 +1,23 @@
 // todo: aot & vanilla
 state("AoMX", "EE")
 {
-    // todo: mission number?
+    // todo: mission number for full campaign runs
     float missionTimer: 0x00352038, 0x0; // in seconds
-    // todo: this still doesn't work for The Lost Relic, maybe more
-    // int hasControlOverUnits: 0x00831BD8, 0x1D0; // 1 when you get control of your units after the cutscene
     int isInCutScene: 0x00831BD8, 0x1D0;// is 0 when in cut scene, 1 otherwise
-    // int isInPlay: ;// is 0 when in play, 1 otherwise (i.e in menus, pulling up a menu/tech tree in game, in the age up select screen.  Is still 0 if you simply pause though)
     int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
-    // int menu: 0x00234380, 0x0; // 0 when in menus
 }
 
 init
 {
-    vars.actualIGT = -1;
     vars.cutSceneOffset = -1;
 }
 
 start
 {
-    // TODO: Does not work for The Lost Relic
     if (
         old.isInCutScene == 0
         && current.isInCutScene == 1
     ) {
-        vars.actualIGT = 0;
         vars.cutSceneOffset = current.missionTimer;
         return true;
     }
