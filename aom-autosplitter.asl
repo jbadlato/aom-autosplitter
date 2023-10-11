@@ -5,6 +5,7 @@ state("AoMX", "EE")
     float missionTimer: 0x00352038, 0x0; // in seconds
     int isInCutScene: 0x00831BD8, 0x1D0;// is 0 when in cut scene, 1 otherwise
     int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
+    int isInMenu: 0x0085CDB8, 0x0, 0x4, 0x4; // is 0 when in menu, > 0 otherwise (strictly increases, maybe related to timer?)
 }
 
 init
@@ -15,7 +16,8 @@ init
 start
 {
     if (
-        old.isInCutScene == 0
+        current.isInMenu != 0
+        && old.isInCutScene == 0
         && current.isInCutScene == 1
     ) {
         vars.cutSceneOffset = current.missionTimer;
@@ -50,7 +52,8 @@ startup
 split
 {
     if (
-        current.victory == 0
+        current.isInMenu != 0
+        && current.victory == 0
         && old.victory == 1
     ) {
         return true;
