@@ -4,6 +4,7 @@ state("AoMX", "EE")
     int missionState: 0x007F828C, 0x348, 0xDD4;
     float missionTimer: 0x00352038, 0x0; // in seconds
     int isInCutScene: 0x00831BD8, 0x1D0;// is 0 when in cut scene, 1 otherwise
+    int missionLoadScreen: 0x000612F4, 0x0; // is 0 when loading, 256 otherwise
     // todo: remove cut scene time
     // todo: add (real time) pause times + menu times
     int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
@@ -72,7 +73,7 @@ startup
     Func<dynamic, dynamic, bool> defaultStartFunc = (oldState, currentState) => {
         if (
             currentState.isInMenu != 0
-            && oldState.isInCutScene == 0
+            && (oldState.isInCutScene == 0 || oldState.missionLoadScreen)
             && currentState.isInCutScene == 1
         ) {
             vars.cutSceneOffset = currentState.missionTimer;
