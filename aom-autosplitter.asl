@@ -70,23 +70,15 @@ startup
     vars.missionNumberToStartFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default start detection (this works for most missions)
     Func<dynamic, dynamic, bool> defaultStartFunc = (oldState, currentState) => {
-        print("entered start func ------------------");
-        print("isInMenu: ");
-        print(currentState.isInMenu.ToString());
-        print("old isInCutScene: ");
-        print(oldState.isInCutScene.ToString());
-        print("current isInCutScene: ");
-        print(currentState.isInCutScene.ToString());
-            if (
-                currentState.isInMenu != 0
-                // && oldState.isInCutScene == 0
-                && currentState.isInCutScene == 1
-            ) {
-                print("ATTEMPTING TO START!");
-                vars.cutSceneOffset = currentState.missionTimer;
-                return true;
-            }
-            return false;
+        if (
+            currentState.isInMenu != 0
+            && oldState.isInCutScene == 0
+            && currentState.isInCutScene == 1
+        ) {
+            vars.cutSceneOffset = currentState.missionTimer;
+            return true;
+        }
+        return false;
         };
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
         vars.missionNumberToStartFunc.Add(missionNumber, defaultStartFunc);
@@ -106,7 +98,6 @@ startup
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
         vars.missionNumberToSplitFunc.Add(missionNumber, defaultSplitFunc);
     }
-    print(vars.missionNumberToStartFunc.Count.ToString());
 }
 
 init
@@ -119,7 +110,6 @@ start
     if (settings["Individual Level"]) {
         return vars.missionNumberToStartFunc[vars.missionStateToMissionNumber[current.missionState]](old, current);
     }
-
 }
 
 split
