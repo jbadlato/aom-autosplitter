@@ -67,11 +67,7 @@ start
 
 startup
 {
-    // todo: each campaign?
-    // todo: fps?
-    // todo: IL vs full campaign
-    // settings.Add("Individual Level");
-    // settings.SetToolTip("Individual Level", "Check this box for IL runs - it will reset the timer without having to go back to the menu");
+    // todo: campaign selection in settings
 
     //Asks the user to set their timer to game time on livesplit, which is needed for verification
     if (timer.CurrentTimingMethod == TimingMethod.RealTime) // Inspired by the Modern warfare 3 Autosplitter
@@ -87,6 +83,43 @@ startup
             timer.CurrentTimingMethod = TimingMethod.GameTime;
         }
     }
+
+    // mission number state to displayed mission number:
+    vars.missionStateToMissionNumber = new Dictionary<int, int>() {
+        {0, 0}, // Prologue
+        {1, 1}, // Omens
+        {3, 2}, // Consequences
+        {5, 3}, // Scratching the Surface
+        {6, 4}, // A Fine Plan
+        {7, 5}, // Just Enough Rope
+        {9, 6}, // I Hope This Works
+        {12, 7}, // More Bandits
+        {14, 8}, // Bad News
+        {16, 9}, // Revelation
+        {18, 10}, // Strangers
+        {21, 11}, // The Lost Relic
+        {23, 12}, // Light Sleeper
+        {24, 13}, // Tug of War
+        {25, 14}, // "Isis, Hear My Plea"
+        {27, 15}, // Let's Go
+        {28, 16}, // Good Advice
+        {31, 17}, // The Jackal's Stronghold
+        {33, 18}, // A Long Way From Home
+        {34, 19}, // Watch That First Step
+        {36, 20}, // Where They Belong
+        {38, 21}, // Old Friends
+        {41, 22}, // North
+        {43, 23}, // The Dwarven Forge
+        {46, 24}, // Not From Around Here
+        {47, 25}, // Welcoming Committee
+        {48, 26}, // Union
+        {49, 27}, // The Well of Urd
+        {51, 28}, // Beneath the Surface
+        {53, 29}, // Unlikely Heroes
+        {55, 30}, // All Is Not Lost
+        {57, 31}, // Welcome Back
+        {58, 32}, // A Place in My Dreams
+    };
 }
 
 split
