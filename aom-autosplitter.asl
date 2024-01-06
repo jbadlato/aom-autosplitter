@@ -48,25 +48,10 @@ state("AoMX", "EE")
     int isInMenu: 0x0085CDB8, 0x0, 0x4, 0x4; // is 0 when in menu, > 0 otherwise (strictly increases, maybe related to timer?)
 }
 
-init
-{
-    vars.cutSceneOffset = -1;
-}
-
-start
-{
-    if (
-        current.isInMenu != 0
-        && old.isInCutScene == 0
-        && current.isInCutScene == 1
-    ) {
-        vars.cutSceneOffset = current.missionTimer;
-        return true;
-    }
-}
-
 startup
 {
+    settings.Add("Individual Level");
+    settings.SetToolTip("Individual Level", "Check this box for IL runs");
     // todo: campaign selection in settings
 
     //Asks the user to set their timer to game time on livesplit, which is needed for verification
@@ -122,20 +107,39 @@ startup
     };
 }
 
-split
+init
 {
-    if (
-        current.isInMenu != 0
-        && current.victory == 0
-        && old.victory == 1
-    ) {
-        return true;
-    }
-    
+    vars.cutSceneOffset = -1;
 }
 
-reset
+start
 {
+    if (settings["Individual Level"]) {
+
+    }
+    // if (
+    //     current.isInMenu != 0
+    //     && old.isInCutScene == 0
+    //     && current.isInCutScene == 1
+    // ) {
+    //     vars.cutSceneOffset = current.missionTimer;
+    //     return true;
+    // }
+}
+
+split
+{
+    if (settings["Individual Level"]) {
+
+    }
+    // if (
+    //     current.isInMenu != 0
+    //     && current.victory == 0
+    //     && old.victory == 1
+    // ) {
+    //     return true;
+    // }
+    
 }
 
 gameTime
