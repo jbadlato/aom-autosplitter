@@ -5,7 +5,6 @@ state("AoMX", "EE")
     float missionTimer: 0x00352038, 0x0; // in seconds
     int isInCutScene: 0x00831BD8, 0x1D0;// is 0 when in cut scene, 1 otherwise
     int missionLoadScreen: 0x000612F4, 0x0; // is 0 when loading, 256 otherwise
-    int inGame: 0x001DF778, 0x0; // 59, 61, or 1 when in game. 43 in menu, 53 in cinematic? Feels like there has to be something better to watch here.
     // todo: remove cut scene time
     // todo: add (real time) pause times + menu times
     int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
@@ -71,15 +70,10 @@ startup
     };
     vars.missionNumberToStartFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default start detection (this works for most missions)
-    HashSet<int> inGameValues = new HashSet<int>();
-    inGameValues.Add(1);
-    inGameValues.Add(59);
-    inGameValues.Add(61);
     Func<dynamic, dynamic, bool> defaultStartFunc = (oldState, currentState) => {
         if (
-            !inGameValues.Contains(oldState.inGame)
-            && inGameValues.Contains(currentState.inGame)
-            && currentState.missionTimer > 0
+            (oldState.missionTimer <= 0 && currentState.isInCutScene != 0 && currentState.missionTimer > 0)
+            || (oldState.isInCutScene == 0 && currentState.isInCutScene != 0 && currentState.missionTimer > 0)
         ) {
             vars.cutSceneOffset = currentState.missionTimer;
             return true;
@@ -92,6 +86,10 @@ startup
     vars.missionNumberToSplitFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default split detection (this works for most missions)
     Func<dynamic, dynamic, bool> defaultSplitFunc = (oldState, currentState) => {
+        /**
+        Works for: 1
+        Does not work for: 2, 3, 4, 5, 6, 7
+        */
             if (
                 currentState.isInMenu != 0
                 && currentState.victory == 0
@@ -104,6 +102,11 @@ startup
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
         vars.missionNumberToSplitFunc.Add(missionNumber, defaultSplitFunc);
     }
+}
+
+init
+{
+    vars.cutSceneOffset = -1;
 }
 
 start
