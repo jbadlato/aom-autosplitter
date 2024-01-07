@@ -5,6 +5,7 @@ state("AoMX", "EE")
     float missionTimer: 0x00352038, 0x0; // in seconds
     int isInCutScene: 0x00831BD8, 0x1D0;// is 0 when in cut scene, 1 otherwise
     int missionLoadScreen: 0x000612F4, 0x0; // is 0 when loading, 256 otherwise
+    int inGame: 0x001DF778, 0x0; // 59, 61, or 1 when in game. 43 in menu, 53 in cinematic? Feels like there has to be something better to watch here.
     // todo: remove cut scene time
     // todo: add (real time) pause times + menu times
     int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
@@ -70,11 +71,15 @@ startup
     };
     vars.missionNumberToStartFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default start detection (this works for most missions)
+    HashSet<int> inGameValues = new HashSet<int>();
+    inGameValues.Add(1);
+    inGameValues.Add(59);
+    inGameValues.Add(61);
     Func<dynamic, dynamic, bool> defaultStartFunc = (oldState, currentState) => {
         if (
-            currentState.isInMenu != 0
-            && (oldState.isInCutScene == 0 || oldState.missionLoadScreen)
-            && currentState.isInCutScene == 1
+            !inGameValues.Contains(oldState.inGame)
+            && inGameValues.Contains(currentState.inGame)
+            && currentState.missionTimer > 0
         ) {
             vars.cutSceneOffset = currentState.missionTimer;
             return true;
