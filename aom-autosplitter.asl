@@ -86,19 +86,14 @@ startup
     vars.missionNumberToSplitFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default split detection (this works for most missions)
     Func<dynamic, dynamic, bool> defaultSplitFunc = (oldState, currentState) => {
-        /**
-        Works for: 1
-        Does not work for: 2, 3, 4, 5, 6, 7
-        */
             if (
-                currentState.isInMenu != 0
-                && currentState.victory == 0
-                && oldState.victory == 1
+                currentState.missionState > oldState.missionState
             ) {
                 return true;
             }
             return false;
         };
+    vars.defaultSplitFunc = defaultSplitFunc;
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
         vars.missionNumberToSplitFunc.Add(missionNumber, defaultSplitFunc);
     }
@@ -119,6 +114,9 @@ start
 split
 {
     if (settings["Individual Level"]) {
+        if (!vars.missionStateToMissionNumber.ContainsKey(current.missionState)) {
+            return vars.defaultSplitFunc(old, current);
+        }
         return vars.missionNumberToSplitFunc[vars.missionStateToMissionNumber[current.missionState]](old, current);
     }
 }
