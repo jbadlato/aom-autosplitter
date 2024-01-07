@@ -106,11 +106,6 @@ startup
     }
 }
 
-init
-{
-    vars.cutSceneOffset = -1;
-}
-
 start
 {
     if (settings["Individual Level"]) {
