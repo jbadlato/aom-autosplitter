@@ -51,6 +51,7 @@ startup
         {25, 14}, // "Isis, Hear My Plea"
         {27, 15}, // Let's Go
         {28, 16}, // Good Advice
+        {29, 16}, // Good Advice Part 2
         {31, 17}, // The Jackal's Stronghold
         {33, 18}, // A Long Way From Home
         {34, 19}, // Watch That First Step
@@ -81,7 +82,9 @@ startup
         return false;
         };
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
-        vars.missionNumberToStartFunc.Add(missionNumber, defaultStartFunc);
+        if (!vars.missionNumberToStartFunc.ContainsKey(missionNumber)) {
+            vars.missionNumberToStartFunc.Add(missionNumber, defaultStartFunc);
+        }
     }
     vars.missionNumberToSplitFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default split detection (this works for most missions)
@@ -94,8 +97,26 @@ startup
             return false;
         };
     vars.defaultSplitFunc = defaultSplitFunc;
+    // Good Advice has two parts, mission state goes from 28 -> 29 -> 30.
+    // Need to add up the mission times of 28->29 & 29->30
+    // We can exploit cutScene offset for this, using a negative one.
+    Func<dynamic, dynamic, bool> goodAdviceSplitFunc = (oldState, currentState) => {
+        if (currentState.missionState == 30) {
+            return true;
+        }
+        if (oldState.missionState == 28 && currentState.missionState == 29) {
+            vars.cutSceneOffset = vars.cutSceneOffset - currentState.missionTimer;
+        }
+        if (currentState.missionState == 29 && oldState.isInCutScene == 0 && currentState.isInCutScene == 1) {
+            vars.cutSceneOffset = vars.cutSceneOffset + currentState.missionTimer;
+        }
+        return false;
+    };
+    vars.missionNumberToSplitFunc.Add(16, goodAdviceSplitFunc);
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
-        vars.missionNumberToSplitFunc.Add(missionNumber, defaultSplitFunc);
+        if (!vars.missionNumberToSplitFunc.ContainsKey(missionNumber)) {
+            vars.missionNumberToSplitFunc.Add(missionNumber, defaultSplitFunc);
+        }
     }
 }
 
