@@ -69,6 +69,7 @@ startup
         {57, 31}, // Welcome Back
         {58, 32}, // A Place in My Dreams
     };
+    
     vars.missionNumberToStartFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default start detection (this works for most missions)
     Func<dynamic, dynamic, bool> defaultStartFunc = (oldState, currentState) => {
@@ -81,11 +82,13 @@ startup
         }
         return false;
         };
+    vars.defaultStartFunc = defaultStartFunc;
     foreach (int missionNumber in vars.missionStateToMissionNumber.Values) {
         if (!vars.missionNumberToStartFunc.ContainsKey(missionNumber)) {
             vars.missionNumberToStartFunc.Add(missionNumber, defaultStartFunc);
         }
     }
+
     vars.missionNumberToSplitFunc = new Dictionary<int, Func<dynamic, dynamic, bool>>() {};
     // Default split detection (this works for most missions)
     Func<dynamic, dynamic, bool> defaultSplitFunc = (oldState, currentState) => {
@@ -128,6 +131,9 @@ init
 start
 {
     if (settings["Individual Level"]) {
+        if (!vars.missionStateToMissionNumber.ContainsKey(current.missionState)) {
+            return vars.defaultStartFunc(old, current);
+        }
         return vars.missionNumberToStartFunc[vars.missionStateToMissionNumber[current.missionState]](old, current);
     }
 }
