@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Layout version="1.6.1">
   <Mode>Vertical</Mode>
-  <X>1503</X>
-  <Y>392</Y>
+  <X>1528</X>
+  <Y>564</Y>
   <VerticalWidth>252</VerticalWidth>
-  <VerticalHeight>426</VerticalHeight>
+  <VerticalHeight>305</VerticalHeight>
   <HorizontalWidth>-1</HorizontalWidth>
   <HorizontalHeight>-1</HorizontalHeight>
   <Settings>
@@ -39,42 +39,6 @@
     <MousePassThroughWhileRunning>False</MousePassThroughWhileRunning>
   </Settings>
   <Components>
-    <Component>
-      <Path>LiveSplit.ScriptableAutoSplit.dll</Path>
-      <Settings>
-        <Version>1.5</Version>
-        <ScriptPath>C:\Users\joeba\git\aom-autosplitter\aom-autosplitter.asl</ScriptPath>
-        <Start>True</Start>
-        <Reset>True</Reset>
-        <Split>True</Split>
-        <CustomSettings>
-          <Setting id="Individual Level" type="bool">True</Setting>
-        </CustomSettings>
-      </Settings>
-    </Component>
-    <Component>
-      <Path>LiveSplit.Title.dll</Path>
-      <Settings>
-        <Version>1.7.3</Version>
-        <ShowGameName>True</ShowGameName>
-        <ShowCategoryName>True</ShowCategoryName>
-        <ShowAttemptCount>True</ShowAttemptCount>
-        <ShowFinishedRunsCount>False</ShowFinishedRunsCount>
-        <OverrideTitleFont>False</OverrideTitleFont>
-        <OverrideTitleColor>False</OverrideTitleColor>
-        <TitleFont><![CDATA[AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAAAAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQIAAAAbU3lzdGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AgAAAAIAAAAGAwAAAAhTZWdvZSBVSQAAUEEF/P///xhTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGUBAAAAB3ZhbHVlX18ACAIAAAAAAAAABfv///8bU3lzdGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AQAAAAd2YWx1ZV9fAAgCAAAAAgAAAAs=]]></TitleFont>
-        <SingleLine>False</SingleLine>
-        <TitleColor>FFFFFFFF</TitleColor>
-        <BackgroundColor>FF2A2A2A</BackgroundColor>
-        <BackgroundColor2>FF131313</BackgroundColor2>
-        <BackgroundGradient>Vertical</BackgroundGradient>
-        <DisplayGameIcon>True</DisplayGameIcon>
-        <ShowRegion>False</ShowRegion>
-        <ShowPlatform>False</ShowPlatform>
-        <ShowVariables>True</ShowVariables>
-        <TextAlignment>0</TextAlignment>
-      </Settings>
-    </Component>
     <Component>
       <Path>LiveSplit.Splits.dll</Path>
       <Settings>
@@ -112,7 +76,7 @@
         <OverrideDeltasColor>False</OverrideDeltasColor>
         <DeltasColor>FFFFFFFF</DeltasColor>
         <Display2Rows>False</Display2Rows>
-        <ShowColumnLabels>True</ShowColumnLabels>
+        <ShowColumnLabels>False</ShowColumnLabels>
         <LabelsColor>FFFFFFFF</LabelsColor>
         <Columns>
           <Settings>
@@ -125,7 +89,7 @@
           <Settings>
             <Version>1.5</Version>
             <Name>Time</Name>
-            <Type>DeltaorSplitTime</Type>
+            <Type>SplitTime</Type>
             <Comparison>Current Comparison</Comparison>
             <TimingMethod>Current Timing Method</TimingMethod>
           </Settings>
@@ -136,7 +100,7 @@
       <Path>LiveSplit.DetailedTimer.dll</Path>
       <Settings>
         <Version>1.5</Version>
-        <Height>75</Height>
+        <Height>68</Height>
         <Width>200</Width>
         <SegmentTimerSizeRatio>40</SegmentTimerSizeRatio>
         <TimerShowGradient>True</TimerShowGradient>
@@ -159,50 +123,25 @@
         <BackgroundColor>00FFFFFF</BackgroundColor>
         <BackgroundColor2>00FFFFFF</BackgroundColor2>
         <BackgroundGradient>Plain</BackgroundGradient>
-        <Comparison>Current Comparison</Comparison>
+        <Comparison>Personal Best</Comparison>
         <Comparison2>Best Segments</Comparison2>
         <HideComparison>False</HideComparison>
-        <TimingMethod>Game Time</TimingMethod>
+        <TimingMethod>Current Timing Method</TimingMethod>
         <DecimalsSize>32</DecimalsSize>
         <SegmentTimerDecimalsSize>35</SegmentTimerDecimalsSize>
       </Settings>
     </Component>
     <Component>
-      <Path>LiveSplit.Text.dll</Path>
-      <Settings>
-        <Version>1.4</Version>
-        <TextColor>FFFFFFFF</TextColor>
-        <OverrideTextColor>False</OverrideTextColor>
-        <TimeColor>FFFFFFFF</TimeColor>
-        <OverrideTimeColor>False</OverrideTimeColor>
-        <BackgroundColor>00FFFFFF</BackgroundColor>
-        <BackgroundColor2>00FFFFFF</BackgroundColor2>
-        <BackgroundGradient>Plain</BackgroundGradient>
-        <Text1>Real Time:</Text1>
-        <Text2> </Text2>
-        <Font1><![CDATA[AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAAAAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQIAAAAbU3lzdGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AgAAAAIAAAAGAwAAAAhTZWdvZSBVSQAAUEEF/P///xhTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGUBAAAAB3ZhbHVlX18ACAIAAAAAAAAABfv///8bU3lzdGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AQAAAAd2YWx1ZV9fAAgCAAAAAgAAAAs=]]></Font1>
-        <Font2><![CDATA[AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAAAAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQIAAAAbU3lzdGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AgAAAAIAAAAGAwAAAAhTZWdvZSBVSQAAUEEF/P///xhTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGUBAAAAB3ZhbHVlX18ACAIAAAAAAAAABfv///8bU3lzdGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AQAAAAd2YWx1ZV9fAAgCAAAAAgAAAAs=]]></Font2>
-        <OverrideFont1>False</OverrideFont1>
-        <OverrideFont2>False</OverrideFont2>
-        <Display2Rows>False</Display2Rows>
-      </Settings>
-    </Component>
-    <Component>
-      <Path>LiveSplit.Timer.dll</Path>
+      <Path>LiveSplit.ScriptableAutoSplit.dll</Path>
       <Settings>
         <Version>1.5</Version>
-        <TimerHeight>20</TimerHeight>
-        <TimerWidth>225</TimerWidth>
-        <TimerFormat>1.23</TimerFormat>
-        <OverrideSplitColors>False</OverrideSplitColors>
-        <ShowGradient>True</ShowGradient>
-        <TimerColor>FFAAAAAA</TimerColor>
-        <BackgroundColor>00FFFFFF</BackgroundColor>
-        <BackgroundColor2>00FFFFFF</BackgroundColor2>
-        <BackgroundGradient>Plain</BackgroundGradient>
-        <CenterTimer>False</CenterTimer>
-        <TimingMethod>Real Time</TimingMethod>
-        <DecimalsSize>35</DecimalsSize>
+        <ScriptPath>C:\Users\joeba\git\aom-autosplitter\aom-autosplitter.asl</ScriptPath>
+        <Start>True</Start>
+        <Reset>True</Reset>
+        <Split>True</Split>
+        <CustomSettings>
+          <Setting id="Individual Level" type="bool">False</Setting>
+        </CustomSettings>
       </Settings>
     </Component>
   </Components>

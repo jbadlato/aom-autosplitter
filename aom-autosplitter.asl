@@ -17,21 +17,6 @@ startup
     settings.SetToolTip("Individual Level", "Check this box for IL runs");
     // todo: campaign selection in settings
 
-    //Asks the user to set their timer to game time on livesplit, which is needed for verification
-    if (timer.CurrentTimingMethod == TimingMethod.RealTime) // Inspired by the Modern warfare 3 Autosplitter
-    {        
-        var timingMessage = MessageBox.Show (
-            "This game uses Time without Loads (Game Time) as the main timing method.\n"+
-            "LiveSplit is currently set to show Real Time (RTA).\n"+
-            "Would you like to set the timing method to Game Time? This will make verification easier.",
-            "LiveSplit | Age of Mythology",
-            MessageBoxButtons.YesNo,MessageBoxIcon.Question);
-        if (timingMessage == DialogResult.Yes)
-        {
-            timer.CurrentTimingMethod = TimingMethod.GameTime;
-        }
-    }
-
     // mission number state to displayed mission number:
     vars.missionStateToMissionNumber = new Dictionary<int, int>() {
         //{0, 0}, // Prologue
@@ -121,6 +106,49 @@ startup
             vars.missionNumberToSplitFunc.Add(missionNumber, defaultSplitFunc);
         }
     }
+    vars.timingAcknowledgement = false;
+}
+
+update {
+    //Asks the user to set their timer to game time on livesplit, which is needed for verification
+    if (
+        !vars.timingAcknowledgement
+        && timer.CurrentTimingMethod == TimingMethod.RealTime
+        && settings["Individual Level"]
+    ) // Inspired by the Modern warfare 3 Autosplitter
+    {        
+        var timingMessage = MessageBox.Show (
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"+
+            "LiveSplit is currently set to show Real Time (RTA).\n"+
+            "Would you like to set the timing method to Game Time? This will make verification easier.",
+            "LiveSplit | Age of Mythology",
+            MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.GameTime;
+        } else {
+            vars.timingAcknowledgement = true;
+        }
+    }
+    if (
+        !vars.timingAcknowledgement
+        && timer.CurrentTimingMethod == TimingMethod.GameTime
+        && !settings["Individual Level"]
+    ) 
+    {        
+        var timingMessage = MessageBox.Show (
+            "This game uses Time without Loads (Game Time) as the main timing method.\n"+
+            "LiveSplit is currently set to show Real Time (RTA).\n"+
+            "Would you like to set the timing method to Real Time? This will make verification easier.",
+            "LiveSplit | Age of Mythology",
+            MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+        if (timingMessage == DialogResult.Yes)
+        {
+            timer.CurrentTimingMethod = TimingMethod.RealTime;
+        } else {
+            vars.timingAcknowledgement = true;
+        }
+    }
 }
 
 init
@@ -135,6 +163,15 @@ start
             return vars.defaultStartFunc(old, current);
         }
         return vars.missionNumberToStartFunc[vars.missionStateToMissionNumber[current.missionState]](old, current);
+    } else {
+        if (
+            current.missionState == 1 && (
+                (old.missionTimer <= 0 && current.isInCutScene != 0 && current.missionTimer > 0)
+                || (old.isInCutScene == 0 && current.isInCutScene != 0 && current.missionTimer > 0)
+            )
+        ) {
+            return true;
+        }
     }
 }
 
@@ -145,6 +182,15 @@ split
             return vars.defaultSplitFunc(old, current);
         }
         return vars.missionNumberToSplitFunc[vars.missionStateToMissionNumber[current.missionState]](old, current);
+    } else {
+        if (
+            vars.missionStateToMissionNumber.ContainsKey(old.missionState)
+            && current.missionState > old.missionState
+            && old.missionState != 28 // Don't split after first part of good advice
+        ) {
+            return true;
+        }
+        return false;
     }
 }
 
