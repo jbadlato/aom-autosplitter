@@ -5,7 +5,7 @@ state("AoMX", "EE")
     float missionTimer: 0x00352038, 0x0; // in seconds
     int isInCutScene: 0x00831BD8, 0x1D0;// is 0 when in cut scene, 1 otherwise
     int missionLoadScreen: 0x000612F4, 0x0; // is 0 when loading, 256 otherwise
-    // todo: remove cut scene time
+    // todo: remove load time
     // todo: add (real time) pause times + menu times
     int victory: 0x007F8288, 0x54C, 0x14; // goes from 1->0 when "You are Victorious!" is displayed
     int isInMenu: 0x0085CDB8, 0x0, 0x4, 0x4; // is 0 when in menu, > 0 otherwise (strictly increases, maybe related to timer?)
@@ -15,7 +15,6 @@ startup
 {
     settings.Add("Individual Level");
     settings.SetToolTip("Individual Level", "Check this box for IL runs");
-    // todo: campaign selection in settings
 
     // mission number state to displayed mission number:
     vars.missionStateToMissionNumber = new Dictionary<int, int>() {
